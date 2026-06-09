@@ -41,7 +41,30 @@ def TranslatePath(path):
 	if path.startswith('special://'):
 		path = xbmcvfs.translatePath(path)
 	return path
-	
 
-# C:\Users\Andy\AppData\Roaming\Kodi\addons\skin.aeon.nox.thfc\media\badges
-# C:\Users\Andy\AppData\Roaming\Kodi\addons\skin.aeon.nox.thfc\media\badges
+
+def SpecialPath(absolute_path):
+	# Converts real path to kodi special path
+	# 1. Resolve your base special paths to their physical OS equivalents
+	base_paths = {
+		'special://home/': xbmcvfs.translatePath('special://home'),
+		'special://temp/': xbmcvfs.translatePath('special://temp'),
+		'special://masterprofile/': xbmcvfs.translatePath('special://masterprofile'),
+		'special://xbmc/': xbmcvfs.translatePath('special://xbmc')
+	}
+	
+	# Normalize paths to avoid slash and case mismatch issues
+	abs_path_normalized = absolute_path.replace('\\', '/').lower()
+	
+	# 2. Check which base path the absolute path belongs to
+	for special_prefix, physical_path in base_paths.items():
+		phys_path_normalized = physical_path.replace('\\', '/').lower()
+		
+		if abs_path_normalized.startswith(phys_path_normalized):
+			# 3. Replace the absolute prefix with the special protocol
+			relative_part = absolute_path[len(physical_path):]
+			# Ensure proper joining with a forward slash
+			return f"{special_prefix}{relative_part}".replace('\\', '/')
+			
+	# Return the original path if no special mapping matches
+	return absolute_path

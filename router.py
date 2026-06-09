@@ -6,14 +6,16 @@ from urllib.parse import parse_qs
 
 from resources.lib.modules.kodilog import Log
 
-Log(sys.argv[1])
+
 
 class Main():
 	"""docstring for Main"""
 	def __init__(self):
 		super(Main, self).__init__()
 		self.call_url = sys.argv[0]
-		self.call_args = parse_qs(sys.argv[1][1:])
+		Log(sys.argv[1])
+		self.call_args = parse_qs(sys.argv[1])
+		Log(self.call_args)
 		self.Args()
 
 	def Args(self):
@@ -38,9 +40,11 @@ class Main():
 		if self.mode != None:
 			if self.mode == 'settings':
 				from resources.lib.modules.skinsettings import SkinSettings
-				d = SkinSettings(self.method,self.path,self.properties)
-				d.Run()
-				del d
+				c = SkinSettings(self.path,self.properties)		
+			elif self.mode == 'fanartselect':
+				from resources.lib.modules.fanartselect import FanartSelect
+				c = FanartSelect(self.path,self.properties)
+			getattr(c,self.method)()
 
 
 		

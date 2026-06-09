@@ -4,7 +4,7 @@
 import xbmcplugin
 
 from .kodiaddon import Addon 
-from .kodivfs import GetFiles,JoinPath,FileName
+from .kodivfs import GetFiles,JoinPath,FileName,SpecialPath
 from .Kodilistitem import ListItem
 from .kodilog import Log
 
@@ -33,7 +33,8 @@ class DynamicList():
 		Log(files)
 		for file in files:
 			label = FileName(file)
-			icon = file
+			icon = SpecialPath(file)
+			Log(icon)
 			content.append(('',ListItem(label=label,icon=icon,properties={'label':label,'icon':icon}),False))
 		xbmcplugin.addDirectoryItems(self.handle,content)
 		xbmcplugin.endOfDirectory(self.handle)
