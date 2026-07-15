@@ -8,16 +8,39 @@ from .kodiaddon import Addon
 from .kodivfs import GetFiles,JoinPath,SpecialPath 
 from .kodilog import Log
 
-clubbadge_settings = [
-					"HomeMenuClubBadge_0",
-					"HomeMenuClubBadge_1",
-					"HomeMenuClubBadge_2",
-					"HomeMenuClubBadge_3",
-					"HomeMenuClubBadge_4",
-					"HomeMenuClubBadge_5",
-					"HomeMenuClubBadge_6",
-					"HomeMenuClubBadge_7"
+setting_groups = {
+					"homemenugroup": [
+						"VideosHomeItem",
+						"Custom5HomeItem",
+						"ProgramsHomeItem",
+						"Custom6HomeItem",
+						"Custom4HomeItem",
+						"ShutdownHomeItem",
+						"GamesHomeItem",
+						"MusicVideoHomeItem",
+						"WeatherHomeItem",
+						"Custom3HomeItem",
+						"MovieHomeItem",
+						"TVShowHomeItem",
+						"SettingsHomeItem",
+						"FavoritesHomeItem",
+						"MusicHomeItem",
+						"LiveTVHomeItem",
+						"PicturesHomeItem",
+						"Custom2HomeItem",
+						"Custom1HomeItem"
+					],
+					"HomeMenuClubBadge": [
+						"HomeMenuClubBadge_0",
+						"HomeMenuClubBadge_1",
+						"HomeMenuClubBadge_2",
+						"HomeMenuClubBadge_3",
+						"HomeMenuClubBadge_4",
+						"HomeMenuClubBadge_5",
+						"HomeMenuClubBadge_6",
+						"HomeMenuClubBadge_7"
 					]
+				}
 
 class SkinSettings():
 	"""docstring for SkinSettings"""
@@ -28,12 +51,11 @@ class SkinSettings():
 
 
 	def randomclubbadge(self):
-		Log(xbmc.getInfoLabel('Window(1135).Property(randomsetting)'))
 		SKINADDON = Addon('skin.aeon.nox.thfc')
 		path = [SKINADDON.PATH,'media','badges','']
 		path = JoinPath(path)
 		files = GetFiles(path,'png')
-		for i in clubbadge_settings:
+		for i in setting_groups.get('HomeMenuClubBadge'):
 			xbmc.executebuiltin(f'Skin.SetString({i},{SpecialPath(random.choice(files))})')
 
 

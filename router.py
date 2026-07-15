@@ -3,6 +3,7 @@
 
 import sys
 from urllib.parse import parse_qs
+import traceback
 
 from resources.lib.modules.kodilog import Log
 
@@ -33,8 +34,9 @@ class Main():
 			self.path = None
 		try:
 			self.properties = self.call_args.get('properties')[0]
-		except:
-			self.properties = {}
+		except Exception as e:
+			self.properties = dict()
+			Log(F'{e} {traceback.print_exc()}')
 
 	def Run(self):
 		if self.mode != None:
@@ -44,6 +46,15 @@ class Main():
 			elif self.mode == 'fanartselect':
 				from resources.lib.modules.fanartselect import FanartSelect
 				c = FanartSelect(self.path,self.properties)
+			elif self.mode == 'unloadaction':
+				from resources.lib.modules.unload_actions import UnloadActions
+				c = UnloadActions(self.path,self.properties)
+			elif self.mode == 'loadaction':
+				from resources.lib.modules.load_actions import LoadActions
+				c = LoadActions(self.path,self.properties)
+			elif self.mode == 'executebuiltin':
+				from resources.lib.modules.executebuiltin import ExecuteBuiltin
+				c = ExecuteBuiltin(self.path,self.properties)
 			getattr(c,self.method)()
 
 

@@ -2,6 +2,8 @@
 <addon id="script.aeon.nox.thfc" name="Scripts for aeon nox thfc" version="0.0.1" provider-name="BigYid">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0"/>
+		<import addon="script.module.wallpaper.scraper"/>
+		<import addon="script.module.pil"/>
 	</requires>
 	<extension point="xbmc.python.script" library="router.py">
 		<provides>executable</provides>

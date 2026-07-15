@@ -28,3 +28,102 @@ msgstr ""
 msgctxt "#30002"
 msgid "Debug"
 msgstr ""
+
+msgctxt "#30003"
+msgid "Background"
+msgstr ""
+
+msgstr "#30004"
+msgid "Scrapers"
+msgstr ""
+
+msgctxt "#30005"
+msgid "Cached content clear interval"
+msgstr ""
+
+msgctxt "#30006"
+msgid "When then the scraper has run it will cache the results untill"
+msgstr ""
+
+msgctxt "#30007"
+msgid "Closing of Kodi"
+msgstr ""
+
+msgctxt "#30008"
+msgid "24 hours"
+msgstr ""
+
+msgctxt "#30009"
+msgid "48 hours"
+msgstr ""
+
+msgctxt "#30010"
+msgid "Inculde local files for setting THFC backgrounds"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Files"
+msgstr ""
+
+msgctxt "#30012"
+msgid "Cache THFC images used for single backgrounds"
+msgstr ""
+
+# settings
+msgctxt "#30013"
+msgid "Random settings"
+msgstr ""
+
+# settings
+msgctxt "#30014"
+msgid "Random THFC background change interval rate"
+msgstr ""
+
+# settings
+msgctxt "#30015"
+msgid "Filter out unsuitable images when using [I]Random THFC image from random images[/I]"
+msgstr ""
+
+# settings 
+msgctxt "#30016"
+msgid "Image ratio"
+msgstr ""
+
+
+#: /1080i/custom_1100_FanartSelctor.xml
+msgctxt "#32000"
+msgid "Show selected"
+msgstr ""
+
+#: /1080i/custom_1100_FanartSelctor.xml
+msgctxt "#32001"
+msgid "Hide selected"
+msgstr ""
+
+#: addons\script.aeon.nox.thfc\resources\lib\modules\fanartselect.py
+msgctxt "#32002"
+msgid "The folder used for this menu item already contains images.\nDo you wish to [B]edit[/B] excisting or clear contents and start [B]fresh[/B]?"
+msgstr ""
+
+#: addons\script.aeon.nox.thfc\resources\lib\modules\fanartselect.py
+msgctxt "#32003"
+msgid "Edit"
+msgstr ""
+
+#: addons\script.aeon.nox.thfc\resources\lib\modules\fanartselect.py
+msgctxt "#32004"
+msgid "Fresh"
+msgstr ""
+
+#: addons\script.aeon.nox.thfc\resources\lib\modules\fanartselect.py
+msgctxt "#32005"
+msgid "Cancel"
+msgstr ""
+
+#: addons\script.aeon.nox.thfc\resources\lib\modules\fanartselect.py
+msgctxt "#32006"
+msgid "The file used for random selected already contains selected images.\nDo you wish to [B]edit[/B] excisting or clear contents and start [B]fresh[/B]?"
+msgstr ""
+
+
+

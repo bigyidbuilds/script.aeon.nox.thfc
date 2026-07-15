@@ -16,8 +16,12 @@ def ListItem(label='',icon=None,fanart=None,properties=None):
 		art.update({'fanart':fanart})
 	if art:
 		li.setArt(art)
-	for k,v in properties.items():
-		li.setProperty(k,json.dumps(v))
+	if properties:
+		for k,v in properties.items():
+			if isinstance(v,str):
+				li.setProperty(k,v)
+			else:
+				li.setProperty(k,json.dumps(v))
 	return li
 
 
