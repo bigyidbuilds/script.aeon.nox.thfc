@@ -54,6 +54,18 @@ def FileNameUrl(url):
 	parsedurl = urlparse(url)
 	return pathlib.Path(parsedurl.path).stem
 
+def FileExt(path):
+	path = TranslatePath(path)
+	if xbmcvfs.exists(path):
+		return pathlib.Path(path).suffix
+	else:
+		return None
+
+
+def FileExtUrl(url):
+	parsedurl = urlparse(url)
+	return pathlib.Path(parsedurl.path).suffix
+
 
 def FolderName(path):
 	path = TranslatePath(path)
@@ -203,7 +215,7 @@ class FolderPaths(object):
 		self.Cache              = JoinPath([ADDON.PROFILE,'cache',''])
 		self.Random             = JoinPath([self.Cache,'Random',''])
 		self.SingleImage        = JoinPath([ADDON.PROFILE,'backgrounds','SingleImage',''])
-		self.ImageCache         = JoinPath([ADDON.PROFILE,'backgrounds','ImageChace',''])
+		self.ImageCache         = JoinPath([ADDON.PROFILE,'backgrounds','ImageCache',''])
 		self.ScraperCache       = JoinPath([self.Cache,'scraper',''])
 		self.ImageBin           = JoinPath([ADDON.PROFILE,'backgrounds','ImageBin',''])
 

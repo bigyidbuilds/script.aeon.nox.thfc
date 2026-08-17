@@ -259,9 +259,7 @@ class FanartSelect(object):
 			if len(files)>0:
 				xbmc.executebuiltin('Dialog.Close(busydialognocancel, true)')
 				ret = xbmcgui.Dialog().yesnocustom(xbmc.getLocalizedString(31977), ADDON.LocalStr(32002),ADDON.LocalStr(32005),ADDON.LocalStr(32003),ADDON.LocalStr(32004))
-				if ret == -1 or 2:
-					return
-				elif ret == 1:
+				if ret == 1:
 					Log('Clear existing list')
 					for file in files:
 						MoveFile(file,FOLDERPATHS.ImageBin) 

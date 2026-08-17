@@ -4,6 +4,7 @@ import ast
 import json
 
 import xbmc
+import xbmcgui
 
 from.kodilog import Log
 
@@ -12,11 +13,8 @@ class ExecuteBuiltin(object):
 	def __init__(self,path,properties):
 		super(ExecuteBuiltin, self).__init__()
 		self.path = path
-		Log(properties)
 		self.properties = ast.literal_eval(properties)
-		# self.properties = json.loads(json.dumps(properties))
-		Log(self.properties)
-		Log(type(self.properties))
+
 		
 
 
@@ -37,7 +35,15 @@ class ExecuteBuiltin(object):
 		settingstart = -180
 
 		xbmc.executebuiltin(f'Addon.OpenSettings({addon})')
+		xbmc.sleep(300)
+		current_window = xbmcgui.getCurrentWindowDialogId()
+		Log(current_window)
+		Log(categorystart-int(categoryfocus))
+		while True:
+			if current_window == 100140:
+				break
 		if categoryfocus != None:
-			xbmc.executebuiltin(f'SetFocus(3,{categorystart-int(categoryfocus)})')
+			xbmcgui.Window(current_window).setFocusId(categorystart-int(categoryfocus))
+			# xbmc.executebuiltin(f'SetFocus(3,{categorystart-int(categoryfocus)})')
 		if settingfocus != None:
 			xbmc.executebuiltin(f'SetFocus(5,{settingstart-int(settingfocus)})') 

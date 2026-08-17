@@ -4,9 +4,10 @@
 import xbmcplugin
 
 from .kodiaddon import Addon 
-from .kodivfs import GetFiles,JoinPath,FileName,SpecialPath
+from .kodivfs import GetFiles,JoinPath,FileName,SpecialPath,FileNameUrl
 from .Kodilistitem import ListItem
 from .kodilog import Log
+from .resource import GetAssets
 
 class DynamicList():
 	"""docstring for DynamicList"""
@@ -26,15 +27,10 @@ class DynamicList():
 
 	def ClubBadgeList(self):
 		content = list()
-		SKINADDON = Addon('skin.aeon.nox.thfc')
-		path = [SKINADDON.PATH,'media','badges','']
-		path = JoinPath(path)
-		files = GetFiles(path,'png')
-		Log(files)
-		for file in files:
-			label = FileName(file)
-			icon = SpecialPath(file)
-			Log(icon)
+		assets = GetAssets('resource.images.footballbadges','tottenhamhotspur')
+		for asset in assets:
+			label = FileNameUrl(asset)
+			icon = asset
 			content.append(('',ListItem(label=label,icon=icon,properties={'label':label,'icon':icon}),False))
 		xbmcplugin.addDirectoryItems(self.handle,content)
 		xbmcplugin.endOfDirectory(self.handle)

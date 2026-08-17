@@ -3,6 +3,8 @@
 
 import random
 import json
+import threading
+from urllib.parse import urlparse
 
 import xbmc
 import xbmcgui
@@ -10,11 +12,14 @@ import xbmcvfs
 
 from . import ADDON,FOLDERPATHS,FILEPATHS
 
-from .kodivfs import DeleteFile,ExistandMake,FileNameUrl
+from .kodivfs import DeleteFile,ExistandMake,FileNameUrl,JoinPath,GetFiles,SpecialPath
 from .backgrounds import backGrounds
 from .kodilog import Log
 from .skinsettings import setting_groups
 from .images import imageMeta
+from .kodiaddon import Addon
+from .kodijson import FavouritesDetails
+from .resource import GetAssets
 
 class LoadActions(object):
 	"""docstring for LoadActions"""
@@ -26,17 +31,47 @@ class LoadActions(object):
 		self.monitor = xbmc.Monitor()
 
 
+
+
+
 	def home(self):
 		self.window = xbmcgui.Window(10000)
 		self.menus = setting_groups.get('homemenugroup')
 		ExistandMake(FOLDERPATHS.Cache)
 		self.clearscrapercache()
-		self.randomfanart()
+		self.threadevents = [self.randomfanart,self.randomClubbadge]
+		threads = [threading.Thread(target=threadevent) for threadevent in self.threadevents]
+		for thread in threads:
+			thread.start()
+		for thread in threads:
+			thread.join()
+
+
+
 
 
 	def clearscrapercache(self):
 		if ADDON.SETTINGS.getInt('background.scarper.cache.clear') == 0:
 			DeleteFile(FILEPATHS.WallpaperScraperCache)
+
+
+	def randomClubbadge(self):
+		onload_prop = 'random.clubbadge.onload.{}'
+		constant_prop = 'random.clubbadge.random.{}'
+		SKINADDON = Addon('skin.aeon.nox.thfc')
+		path = [SKINADDON.PATH,'media','badges','']
+		path = JoinPath(path)
+		# files = GetFiles(path,'png')
+		assets = GetAssets('resource.images.footballbadges','tottenhamhotspur')
+		#onload random club badge
+		for num in range(7):
+			self.window.setProperty(onload_prop.format(num),random.choice(assets))
+		#random constant change club badge
+		while(not self.monitor.abortRequested()):
+			for num in range(7):
+				self.window.setProperty(constant_prop.format(num),random.choice(assets))
+			self.monitor.waitForAbort(ADDON.SETTINGS.getInt('clubbadge.random.refresh'))
+
 
 
 	def randomfanart(self):
@@ -48,7 +83,6 @@ class LoadActions(object):
 		
 		while(not self.monitor.abortRequested()):
 			#fixed random
-			Log('awake')
 			if self.window.getProperty('wallpaper.random.fixed.updated') == 'true':
 				self.fixed_content = self.fixedcontent()
 			results = self.fixed_content.get('results')
@@ -68,6 +102,8 @@ class LoadActions(object):
 						background_path = background.get('url')
 						if background_path.startswith('http://') or background_path.startswith('https://'):
 							max_retry += 1
+							background_height = background.get('height')
+							background_width = background.get('width')
 							filename = FileNameUrl(background_path)
 							image_meta = images_meta.get(filename)
 							if image_meta:
@@ -80,7 +116,7 @@ class LoadActions(object):
 								else:
 									window_prop = background_path
 							else:
-								IMAGE = imageMeta(background_path)
+								IMAGE = imageMeta(background_path,height=background_height,width=background_width)
 								images_meta.update({filename:{'ratio':IMAGE.RATIO,'ok':IMAGE.IS,'height':IMAGE.HEIGHT,'width':IMAGE.WIDTH,'filename':IMAGE.FILENAME,'size':IMAGE.SIZE,'mode':IMAGE.MODE,'format':IMAGE.FORMAT}})
 								if IMAGE.IS:
 									if ADDON.SETTINGS.getBool('background.random.filter'):
@@ -93,7 +129,7 @@ class LoadActions(object):
 					self.imagemetaWrite(images_meta)
 					self.window.setProperty(totalrandom.format(menu),window_prop)
 			self.monitor.waitForAbort(ADDON.SETTINGS.getInt('background.random.refresh'))
-			Log('sleeping')
+
 
 
 
@@ -112,7 +148,10 @@ class LoadActions(object):
 		content = None
 		if xbmcvfs.exists(FILEPATHS.ImageMeta):
 			with xbmcvfs.File(FILEPATHS.ImageMeta,'r') as f:
-				content = json.load(f)
+				try:
+					content = json.load(f)
+				except json.JSONDecodeError as e:
+   					Log(e)
 		if bool(content):
 			return content
 		else:

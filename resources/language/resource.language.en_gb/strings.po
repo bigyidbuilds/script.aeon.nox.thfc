@@ -89,6 +89,17 @@ msgctxt "#30016"
 msgid "Image ratio"
 msgstr ""
 
+# settings
+msgctxt "#30017"
+msgid "Club badge"
+msgstr ""
+
+# settings
+msgctxt "#30018"
+msgid "Random club badge change invertal rate"
+msgstr ""
+
+
 
 #: /1080i/custom_1100_FanartSelctor.xml
 msgctxt "#32000"
@@ -124,6 +135,8 @@ msgstr ""
 msgctxt "#32006"
 msgid "The file used for random selected already contains selected images.\nDo you wish to [B]edit[/B] excisting or clear contents and start [B]fresh[/B]?"
 msgstr ""
+
+
 
 
 

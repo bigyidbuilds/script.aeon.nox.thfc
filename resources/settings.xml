@@ -74,5 +74,21 @@
 				</setting>
 			</group>
 		</category>
+		<category id="clubbadge" label="30017">
+			<group id="1" label="30013" help="">
+				<setting id="clubbadge.random.refresh" type="integer" label="30018" help="">
+					<level>0</level>
+					<default>10</default>
+					<constraints>
+						<minimum>5</minimum>
+						<step>1</step>
+						<maximum>60</maximum>
+					</constraints>
+					<control type="slider" format="integer">
+						<popup>false</popup>
+					</control>
+				</setting>
+			</group>
+		</category>
 	</section>
 </settings>
