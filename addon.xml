@@ -4,6 +4,7 @@
 		<import addon="xbmc.python" version="3.0.0"/>
 		<import addon="script.module.wallpaper.scraper"/>
 		<import addon="script.module.pil"/>
+		<import addon="script.module.requests"/>
 	</requires>
 	<extension point="xbmc.python.script" library="router.py">
 		<provides>executable</provides>
