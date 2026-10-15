@@ -96,10 +96,63 @@ msgstr ""
 
 # settings
 msgctxt "#30018"
-msgid "Random club badge change invertal rate"
+msgid "Random club badge change interval rate"
 msgstr ""
 
+# program addon menus
+msgctxt "#30500"
+msgid "Maintenance"
+msgstr ""
 
+# program addon maintenance menu
+msgctxt "#30501"
+msgid "Delete all backgrounds from ImageBin"
+msgstr ""
+
+# program addon maintenance menu
+msgctxt "#30502"
+msgid "Manually select and delete backgrounds from ImageBin"
+msgstr ""
+
+# program addon maintenance menu
+msgctxt "#30503"
+msgid "Move items from background ImageCache to background ImageBin"
+msgstr ""
+
+# program addon maintenance menu
+msgctxt "#30504"
+msgid "Move unused background images to ImageBin"
+msgstr ""
+
+# program addon maintenance menu
+msgctxt "#30505"
+msgid "Clear temp data files (Restart required)"
+msgstr ""
+
+# program addon maintenance menu
+msgctxt "#30506"
+msgid "Clear background image scraper cache (Restart required)"
+msgstr ""
+
+# program addon maintenance menu
+msgctxt "#30507"
+msgid "Select files to be deleted"
+msgstr ""
+
+# program addon maintenance menu
+msctxt "#30508"
+msgid "Files moved to"
+msgstr ""
+
+# program addon maintenance menu
+msgctxt "#30509"
+msgid "Move items from background ImageBin to background ImageCache"
+msgstr ""
+
+# program addon maintenance menu
+msgctxt "#30510"
+msgid "Clear background image scraper and image metadata cache(Restart required)"
+msgstr ""
 
 #: /1080i/custom_1100_FanartSelctor.xml
 msgctxt "#32000"

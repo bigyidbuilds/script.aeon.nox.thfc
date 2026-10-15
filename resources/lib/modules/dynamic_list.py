@@ -5,7 +5,7 @@ import xbmcplugin
 
 from .kodiaddon import Addon 
 from .kodivfs import GetFiles,JoinPath,FileName,SpecialPath,FileNameUrl
-from .Kodilistitem import ListItem
+from .kodilistitem import ListItem
 from .kodilog import Log
 from .resource import GetAssets
 

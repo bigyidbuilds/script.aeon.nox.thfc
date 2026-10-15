@@ -7,15 +7,18 @@ import traceback
 
 from resources.lib.modules.kodilog import Log
 
-
+import xbmc
 
 class Main():
 	"""docstring for Main"""
 	def __init__(self):
 		super(Main, self).__init__()
 		self.call_url = sys.argv[0]
-		Log(sys.argv[1])
-		self.call_args = parse_qs(sys.argv[1])
+		try:
+			Log(sys.argv[1])
+			self.call_args = parse_qs(sys.argv[1])
+		except:
+			self.call_args = None
 		Log(self.call_args)
 		self.Args()
 
@@ -55,7 +58,12 @@ class Main():
 			elif self.mode == 'executebuiltin':
 				from resources.lib.modules.executebuiltin import ExecuteBuiltin
 				c = ExecuteBuiltin(self.path,self.properties)
+			elif self.mode == 'maintenance':
+				from resources.lib.modules.maintenance import Maintenance
+				c = Maintenance(self.path,self.properties)
 			getattr(c,self.method)()
+		else:
+			xbmc.executebuiltin('RunAddon(script.aeon.nox.thfc)')
 
 
 		

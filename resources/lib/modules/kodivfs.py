@@ -39,6 +39,14 @@ def GetFiles(path,filetype=None,fullpath=True):
 		files = [os.path.join(path,f) for f in files]
 	return files
 
+def GetDirs(path,fullpath=True):
+	path = TranslatePath(path)
+	dirs, files = xbmcvfs.listdir(path)
+	if fullpath:
+		dirs = [os.path.join(path,d,'') for d in dirs]
+	return dirs
+
+
 def FileName(path,inc_extension=False):
 	# Return file name from path minus file type
 	path = TranslatePath(path)
@@ -77,6 +85,26 @@ def FolderName(path):
 	else:
 		return None
 
+def FileFolderPath(path):
+	path = TranslatePath(path)
+	path = pathlib.Path(path)
+	if path.is_file():
+		path = path.parent
+	else:
+		path = path.parents[0]
+	return str(path)
+
+def PathCompare(path1,path2):
+	#Compare 2 paths returns true if paths are the same even if syntax is different
+	path1 = TranslatePath(path1)
+	path1 = pathlib.Path(path1)
+	path2 = TranslatePath(path2)
+	path2 = pathlib.Path(path2)
+	Log(f'{path1}=={path2}')
+	if path1 == path2:
+		return True
+	else:
+		return False
 
 	
 def JoinPath(items):
@@ -193,6 +221,7 @@ class FolderPaths(object):
 	"""docstring for FolderPaths wrapper for predefined folder paths"""
 	def __init__(self):
 		super(FolderPaths, self).__init__()
+		self.BackGrounds        = JoinPath([ADDON.PROFILE,'backgrounds',''])
 		self.VideosHomeItem     = JoinPath([ADDON.PROFILE,'backgrounds','VideosHomeItem',''])
 		self.Custom5HomeItem    = JoinPath([ADDON.PROFILE,'backgrounds','Custom5HomeItem',''])
 		self.ProgramsHomeItem   = JoinPath([ADDON.PROFILE,'backgrounds','ProgramsHomeItem',''])
@@ -229,4 +258,5 @@ class FilePaths(object):
 		self.WallpaperScraperCache = JoinPath([self.FOLDERPATHS.ScraperCache,'wallpaper.json'])
 		self.WallpaperRandom = JoinPath([self.FOLDERPATHS.Random,'random.json'])
 		self.ImageMeta = JoinPath([self.FOLDERPATHS.Cache,'imagemeta.json'])
+		self.FilesToDelete = JoinPath([self.FOLDERPATHS.Cache,'filedelete.json'])
 		

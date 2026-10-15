@@ -13,7 +13,7 @@ from . import ADDON,FOLDERPATHS,FILEPATHS
 from .kodijson import SettingSkin
 from .kodilog import Log
 from .kodivfs import FileName,SpecialPath,JoinPath,ExistandMake,FileDownloader,GetFiles,FileNameUrl,MoveFile,CopyFile
-from .Kodilistitem import ListItem
+from .kodilistitem import ListItem
 from .uiactions import uiActions
 from .encoding import Encode_B64,Decode_B64
 from .backgrounds import backGrounds

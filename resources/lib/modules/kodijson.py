@@ -31,7 +31,7 @@ def SettingsSkin():
 	method = "Settings.GetSkinSettings"
 	permission ="ReadData"
 	data = get_json(method,permission=permission)
-	results = data.get(results)
+	results = data.get('results')
 	if results:
 		settings = results.get('settings')
 		if settings:
@@ -47,8 +47,8 @@ def SettingSkin(setting_id):
 	method = "Settings.GetSkinSettingValue"
 	permission = 'ReadData'
 	params = {"setting": setting_id}
-			
-	result = get_json(method,params,permission=permission)
+	data =	get_json(method,params,permission=permission)
+	result = data.get('result')
 	if result:
 		value = result.get('value')
 		if value:

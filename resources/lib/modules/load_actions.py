@@ -38,6 +38,7 @@ class LoadActions(object):
 		self.window = xbmcgui.Window(10000)
 		self.menus = setting_groups.get('homemenugroup')
 		ExistandMake(FOLDERPATHS.Cache)
+		self.cleartempfiles()
 		self.clearscrapercache()
 		self.threadevents = [self.randomfanart,self.randomClubbadge]
 		threads = [threading.Thread(target=threadevent) for threadevent in self.threadevents]
@@ -47,7 +48,17 @@ class LoadActions(object):
 			thread.join()
 
 
+	def nextmatch(self):
+		pass
 
+	def cleartempfiles(self):
+		if xbmcvfs.exists(FILEPATHS.FilesToDelete):
+			data = self.ReadJson(FILEPATHS.FilesToDelete)
+			if data:
+				filepaths = data.get('filepaths')
+				for fp in filepaths:
+					DeleteFile(fp)
+			DeleteFile(FILEPATHS.FilesToDelete)
 
 
 	def clearscrapercache(self):
@@ -151,7 +162,7 @@ class LoadActions(object):
 				try:
 					content = json.load(f)
 				except json.JSONDecodeError as e:
-   					Log(e)
+					Log(e)
 		if bool(content):
 			return content
 		else:
@@ -162,5 +173,20 @@ class LoadActions(object):
 		with xbmcvfs.File(FILEPATHS.ImageMeta,'w') as f:
 			f.write(json_str)
 		f.close()
+
+	def ReadJson(self,path):
+		content = {}
+		if xbmcvfs.exists(path):
+			with xbmcvfs.File(path,'r') as f:
+				try:
+					content = json.load(f)
+				except json.JSONDecodeError as e:
+					Log(e)
+		if bool(content):
+			return content
+		else:
+			return {}
+
+
 
 

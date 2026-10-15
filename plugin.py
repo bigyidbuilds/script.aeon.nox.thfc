@@ -1,11 +1,19 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import xbmcplugin
+import json
 import sys
-from urllib.parse import parse_qs
-
+from urllib.parse import parse_qs,urlencode
+import routing
 from resources.lib.modules.kodilog import Log
+from resources.lib.modules.kodilistitem import ListItem 
+from resources.lib.modules import ADDON,FOLDERPATHS,FILEPATHS
+from resources.lib.modules.kodivfs import GetFiles,DeleteFile,FileName
+from resources.lib.modules.encoding import Decode_B64
 
+
+plugin = routing.Plugin()
 
 class Main():
 	"""docstring for Main"""
@@ -43,8 +51,47 @@ class Main():
 				d = DynamicList(self.method,self.path,self.call_handle,self.properties)
 				d.Run()
 				del d
+		else:
+			plugin.run()
 
-		
+
+@plugin.route('/')
+def mainmenu():
+	items = [
+			(plugin.url_for(maintenance_menu),ListItem(label=ADDON.LocalStr(30500),icon="DefaultAddonProgram.png"),True)
+			]		
+
+	xbmcplugin.addDirectoryItems(plugin.handle, items)
+	xbmcplugin.endOfDirectory(plugin.handle)
+
+@plugin.route('/maintenance_menu')
+def maintenance_menu():
+	items = [
+			(plugin.url_for(maintenance_items,method="clearfolder",path=FOLDERPATHS.ImageBin),ListItem(label=ADDON.LocalStr(30501),icon="DefaultAddonProgram.png"),False),
+			(plugin.url_for(maintenance_items,method="clearfolder_select",path=FOLDERPATHS.ImageBin),ListItem(label=ADDON.LocalStr(30502),icon="DefaultAddonProgram.png"),False),
+			(plugin.url_for(maintenance_items,method="movecontents",properties=json.dumps({"pathfrom":FOLDERPATHS.ImageCache,"pathto":FOLDERPATHS.ImageBin})),ListItem(label=ADDON.LocalStr(30503),icon="DefaultAddonProgram.png"),False),
+			(plugin.url_for(maintenance_items,method="movecontents",properties=json.dumps({"pathfrom":FOLDERPATHS.ImageBin,"pathto":FOLDERPATHS.ImageCache})),ListItem(label=ADDON.LocalStr(30509),icon="DefaultAddonProgram.png"),False),
+			(plugin.url_for(maintenance_items,method="unusedimages",path=FOLDERPATHS.BackGrounds),ListItem(label=ADDON.LocalStr(30504),icon="DefaultAddonProgram.png"),False),
+			(plugin.url_for(maintenance_items,method="deletefile",properties=json.dumps({"restart":True,"items":[{"path":FILEPATHS.ImageMeta},{"path":FILEPATHS.WallpaperScraperCache}]})),ListItem(label=ADDON.LocalStr(30505),icon="DefaultAddonProgram.png"),False),
+			(plugin.url_for(maintenance_items,method="filemanger",path=ADDON.PROFILE),ListItem(label=xbmc.getLocalizedString(10003),icon="DefaultAddonProgram.png"),False)
+			]
+	xbmcplugin.addDirectoryItems(plugin.handle, items)
+	xbmcplugin.endOfDirectory(plugin.handle)
+
+
+@plugin.route('/maintenance_menu/items/<method>')
+def maintenance_items(method):
+	try:
+		path = plugin.args['path'][0]
+	except:
+		path = None
+	try:
+		properties = plugin.args['properties'][0]
+	except:
+		properties = None
+	from resources.lib.modules.maintenance import Maintenance
+	m = Maintenance(path,properties)
+	getattr(m,method)()
 
 
 
